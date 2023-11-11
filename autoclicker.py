@@ -5,20 +5,20 @@ import keyboard
 
 clickInterval = 0.00001
 button = 'left'
-start_stop_key = 'f6'
-exit_key = 'f10'
+startKey = 'f6'
+exitKey = 'f10'
 
 clicking = False
-exit_flag = False
+exitFlag = False
 
 def clicker():
-    global exit_flag
-    while not exit_flag:
+    global exitFlag
+    while not exitFlag:
         if clicking:
             pyautogui.click(button=button)
         time.sleep(clickInterval)
 
-def toggle_autoclicker():
+def toggleAutoclicker():
     global clicking
     clicking = not clicking
     if clicking:
@@ -26,22 +26,22 @@ def toggle_autoclicker():
     else:
         print("Autoclicker stopped. Press F6 to start.")
 
-def exit_autoclicker():
-    global clicking, exit_flag
+def exitAutoclicker():
+    global clicking, exitFlag
     clicking = False
-    exit_flag = True
+    exitFlag = True
     print("Exiting autoclicker.")
 
-keyboard.add_hotkey(start_stop_key, toggle_autoclicker)
-keyboard.add_hotkey(exit_key, exit_autoclicker)
+keyboard.add_hotkey(startKey, toggleAutoclicker)
+keyboard.add_hotkey(exitKey, exitAutoclicker)
 
-click_thread = threading.Thread(target=clicker)
-click_thread.start()
+clickThread = threading.Thread(target=clicker)
+clickThread.start()
 
 print("Autoclicker running (press F6 to start/stop, F10 to exit).")
 
-while not exit_flag:
+while not exitFlag:
     time.sleep(0.1)
 
-click_thread.join()
+clickThread.join()
 print("Script exited.")
