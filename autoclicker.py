@@ -15,6 +15,8 @@ def clicker():
         if clicking:
             pyautogui.click(button=button)
         time.sleep(click_interval)
+        if not clicking and not threading.main_thread().is_alive():
+            break
 
 def toggle_autoclicker():
     global clicking
