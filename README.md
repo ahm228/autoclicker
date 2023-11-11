@@ -6,7 +6,7 @@ To run this script, you need to have the following Python libraries installed:
 - `keyboard`: For registering and handling hotkeys.
 
 You can install these dependencies using pip:
-    pip install pyautogui keyboard
+    - pip install pyautogui keyboard
 
 ## Features
 - Start/stop the autoclicker with a hotkey (default F6).
