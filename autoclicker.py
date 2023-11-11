@@ -3,46 +3,49 @@ import time
 import threading
 import keyboard
 
-click_interval = 0.00001  #Interval between clicks, in seconds
-button = 'left'  #The mouse button to click, can be 'left', 'right' or 'middle'
-start_stop_key = 'f6'  #The key to start/stop the script
-exit_key = 'f10'  #The key for exiting the script
+clickInterval = 0.00001 #Time, in seconds, between clicks
+button = 'left' #Mouse button to click: can be set to left, right, and middle
+startKey = 'f6' #Key to start/stop the autoclicker
+exitKey = 'f10' #Key to exit the script
 
-clicking = False
+clicking = False #On/off state of autoclicker
+exitFlag = False #Flag for script termination
 
 def clicker():
-    while True:
+    global exitFlag
+    while not exitFlag:
         if clicking:
             pyautogui.click(button=button)
-        time.sleep(click_interval)
-        if not clicking and not threading.main_thread().is_alive():
-            break
+        time.sleep(clickInterval)
 
-def toggle_autoclicker():
+def toggleAutoclicker():
     global clicking
-    clicking = not clicking
+    clicking = not clicking #Toggle clicking
     if clicking:
         print("Autoclicker started. Press F6 to stop.")
     else:
         print("Autoclicker stopped. Press F6 to start.")
 
-def exit_autoclicker():
-    global clicking
-    clicking = False
+def exitAutoclicker():
+    global clicking, exitFlag
+    clicking = False #Stop clicking
+    exitFlag = True #Set flag to terminate script
     print("Exiting autoclicker.")
-    click_thread.join()  #Wait for the click_thread to finish
-    exit()
 
-keyboard.add_hotkey(start_stop_key, toggle_autoclicker)
-keyboard.add_hotkey(exit_key, exit_autoclicker)
+#Sets keybindings for start/stop and exit
+keyboard.add_hotkey(startKey, toggleAutoclicker)
+keyboard.add_hotkey(exitKey, exitAutoclicker)
 
-click_thread = threading.Thread(target=clicker)
-click_thread.start()
+#Create and start clicker thread
+clickThread = threading.Thread(target=clicker)
+clickThread.start()
 
-try:
-    print("Script running (press F6 to start/stop, F10 to exit).")
-    keyboard.wait(exit_key)
-except KeyboardInterrupt:
-    print("Exiting script.")
-    click_thread.join()  #Ensure that the clicker thread is properly terminated
-    exit()
+print("Autoclicker running (press F6 to start/stop, F10 to exit).")
+
+#Run until exitFlag is thrown
+while not exitFlag:
+    time.sleep(0.1)
+
+#ensure that clicker threat properly finishes before exiting
+clickThread.join()
+print("Script exited.")
