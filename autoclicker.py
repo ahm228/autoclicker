@@ -3,13 +3,13 @@ import time
 import threading
 import keyboard
 
-clickInterval = 0.00001 #Time, in seconds, between clicks
-button = 'left' #Mouse button to click: can be set to left, right, and middle
-startKey = 'f6' #Key to start/stop the autoclicker
-exitKey = 'f10' #Key to exit the script
+clickInterval = 0.0001 #Time, in seconds, between clicks
+button = 'left'         #Mouse button to click: can be set to left, right, and middle
+startKey = 'f6'         #Key to start/stop the autoclicker
+exitKey = 'f10'         #Key to exit the script
 
-clicking = False #On/off state of autoclicker
-exitFlag = False #Flag for script termination
+clicking = False        #On/off state of autoclicker
+exitFlag = False        #Flag for script termination
 
 def clicker():
     global exitFlag
